@@ -3,7 +3,8 @@ import cv2
 import numpy as np
 from PIL import Image
 import streamlit as st
-import easyocr
+import pytesseract
+
 
 CASCADE_1 = "/mnt/data/haarcascade_russian_plate_number.xml"
 CASCADE_2 = "/mnt/data/haarcascade_licence_plate_rus_16stages.xml"
@@ -27,7 +28,7 @@ ocr_conf_thresh = st.slider("Min OCR confidence to accept text", 0.1, 1.0, 0.4)
 cascade1 = cv2.CascadeClassifier(CASCADE_1)
 cascade2 = cv2.CascadeClassifier(CASCADE_2)
 
-reader = easyocr.Reader(["en"], gpu=False)
+
 
 uploaded = st.file_uploader("Upload car image (jpg, png)", type=["jpg", "jpeg", "png"])
 if uploaded is None:
@@ -122,4 +123,5 @@ st.image(cv2.cvtColor(out, cv2.COLOR_BGR2RGB), use_column_width=True)
 is_success, buffer = cv2.imencode(".jpg", out)
 bts = io.BytesIO(buffer.tobytes())
 st.download_button("Download result", data=bts, file_name="plate_blurred.jpg", mime="image/jpeg")
+
 
