@@ -5,6 +5,8 @@ from PIL import Image
 import streamlit as st
 import pytesseract
 
+text_data = pytesseract.image_to_string(gray_roi)
+
 
 CASCADE_1 = "/mnt/data/haarcascade_russian_plate_number.xml"
 CASCADE_2 = "/mnt/data/haarcascade_licence_plate_rus_16stages.xml"
@@ -123,5 +125,6 @@ st.image(cv2.cvtColor(out, cv2.COLOR_BGR2RGB), use_column_width=True)
 is_success, buffer = cv2.imencode(".jpg", out)
 bts = io.BytesIO(buffer.tobytes())
 st.download_button("Download result", data=bts, file_name="plate_blurred.jpg", mime="image/jpeg")
+
 
 
